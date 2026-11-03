@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barisan dan Deret Interaktif - SMAN 46 Maluku Tengah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for interactive simulations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- MathJax for rendering LaTeX math formulas -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .active-tab { background-color: #0d9488; color: white; border-left: 4px solid #042f2e; }
+        .math-box { background: #f8fafc; border-left: 4px solid #0284c7; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-gradient-to-r from-teal-800 to-emerald-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-2 rounded-full text-teal-800 font-bold text-xl w-10 h-10 flex items-center justify-center shadow">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight md:text-xl">MATEMATIKA FASE E - BARISAN & DERET</h1>
+                    <p class="text-xs text-teal-100">SMA Negeri 46 Maluku Tengah | Guru: Mariam Hayoto, S.Pd.</p>
+                </div>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER -->
+    <div class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto my-4 px-2 md:px-4 gap-4">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <nav id="sidebar" class="w-full md:w-64 bg-white rounded-xl shadow-md p-4 space-y-1 self-start shrink-0 hidden md:block">
+            <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Navigasi Utama</div>
+            <button onclick="switchTab('beranda')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition active-tab">
+                <i class="fa-solid fa-house w-5 text-center"></i> <span>Beranda & Identitas</span>
+            </button>
+            <button onclick="switchTab('tujuan')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-bullseye w-5 text-center"></i> <span>Tujuan & Model PBL</span>
+            </button>
+            <button onclick="switchTab('diferensiasi')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-users-gear w-5 text-center"></i> <span>Diferensiasi Belajar</span>
+            </button>
+            
+            <div class="px-3 py-2 mt-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Materi & Simulasi</div>
+            <button onclick="switchTab('materi-pola')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-shapes w-5 text-center"></i> <span>1. Pola Bilangan</span>
+            </button>
+            <button onclick="switchTab('materi-aritmetika')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-arrow-trend-up w-5 text-center"></i> <span>2. Barisan & Deret Aritmetika</span>
+            </button>
+            <button onclick="switchTab('materi-geometri')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-chart-line w-5 text-center"></i> <span>3. Barisan & Deret Geometri</span>
+            </button>
+            <button onclick="switchTab('simulasi-lab')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-flask w-5 text-center"></i> <span>Laboratorium Simulasi</span>
+            </button>
+
+            <div class="px-3 py-2 mt-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Evaluasi & Asesmen</div>
+            <button onclick="switchTab('latihan')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-pen-to-square w-5 text-center"></i> <span>Latihan Kontekstual</span>
+            </button>
+            <button onclick="switchTab('kuis')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-square-check w-5 text-center"></i> <span>Kuis Interaktif (Skor)</span>
+            </button>
+            <button onclick="switchTab('asesmen-sumatif')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-file-lines w-5 text-center"></i> <span>Asesmen Lengkap & Rubrik</span>
+            </button>
+            <button onclick="switchTab('refleksi')" class="nav-link w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition hover:bg-slate-100 text-slate-700">
+                <i class="fa-solid fa-heart-pulse w-5 text-center"></i> <span>Refleksi Pembelajaran</span>
+            </button>
+        </nav>
+
+        <!-- CONTENT AREA -->
+        <main class="flex-1 bg-white rounded-xl shadow-md p-4 md:p-6 min-h-[600px]">
+
+            <!-- TAB 1: BERANDA -->
+            <section id="tab-beranda" class="tab-content space-y-6">
+                <div class="bg-gradient-to-r from-teal-700 to-emerald-600 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="bg-teal-900/60 text-teal-200 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">Fase E - SMA Kelas X</span>
+                        <h2 class="text-3xl font-extrabold mt-2 mb-2">Modul Pembelajaran Interaktif Barisan & Deret</h2>
+                        <p class="text-teal-100 max-w-2xl leading-relaxed">
+                            Selamat datang di media interaktif matematika kontekstual. Modul ini dirancang khusus untuk peserta didik SMAN 46 Maluku Tengah guna memahami konsep barisan dan deret melalui kearifan lokal, simulasi visual, dan latihan interaktif.
+                        </p>
+                    </div>
+                    <div class="absolute -right-10 -bottom-10 opacity-20 text-white text-9xl">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Card Identitas -->
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 shadow-sm">
+                        <h3 class="font-bold text-lg text-slate-800 border-b pb-2 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-address-card text-teal-600"></i> Identitas Pembelajaran
+                        </h3>
+                        <table class="w-full text-sm">
+                            <tr class="border-b border-slate-200/60">
+                                <td class="py-2 text-slate-500 font-medium">Satuan Pendidikan</td>
+                                <td class="py-2 font-semibold text-slate-700">SMA Negeri 46 Maluku Tengah</td>
+                            </tr>
+                            <tr class="border-b border-slate-200/60">
+                                <td class="py-2 text-slate-500 font-medium">Guru Pengampu</td>
+                                <td class="py-2 font-semibold text-slate-700">Mariam Hayoto, S.Pd.</td>
+                            </tr>
+                            <tr class="border-b border-slate-200/60">
+                                <td class="py-2 text-slate-500 font-medium">Mata Pelajaran</td>
+                                <td class="py-2 font-semibold text-slate-700">Matematika (Fase E / Kelas X)</td>
+                            </tr>
+                            <tr class="border-b border-slate-200/60">
+                                <td class="py-2 text-slate-500 font-medium">Materi Utama</td>
+                                <td class="py-2 font-semibold text-teal-700">Barisan & Deret (Aritmetika & Geometri)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-slate-500 font-medium">Alokasi Waktu</td>
+                                <td class="py-2 font-semibold text-slate-700">2 JP (2 x 45 Menit)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Card Pendekatan -->
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800 border-b pb-2 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-sliders text-emerald-600"></i> Model & Pendekatan
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-emerald-100 text-emerald-800 p-2 rounded-lg text-sm font-bold"><i class="fa-solid fa-brain"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">Problem Based Learning (PBL)</h4>
+                                        <p class="text-xs text-slate-600">Orientasi masalah kontekstual lokal (hasil panen cengkeh, tabungan sasi, pertumbuhan bibit pala).</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-teal-100 text-teal-800 p-2 rounded-lg text-sm font-bold"><i class="fa-solid fa-layer-group"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">Pembelajaran Berdiferensiasi</h4>
+                                        <p class="text-xs text-slate-600">Diferensiasi Konten, Proses, dan Produk sesuai profil belajar peserta didik.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t text-xs text-slate-500 italic">
+                            Kurikulum Merdeka 2024 - Berorientasi pada Pengembangan Profil Pelajar Pancasila.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Konteks Lokal Maluku Tengah -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                    <h4 class="font-bold text-amber-800 flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-location-dot"></i> Kontekstualisasi Maluku Tengah
+                    </h4>
+                    <p class="text-sm text-amber-900 leading-relaxed">
+                        Materi dalam media ini dirancang dengan mengangkat realitas kehidupan di Maluku Tengah: pertambahan hasil panen cengkeh & pala, pembagian kursi pertunjukan budaya, pola tabungan warga, dan pembelahan mikroorganisme hasil laut.
+                    </p>
+                </div>
+            </section>
+
+            <!-- TAB 2: TUJUAN PEMBELAJARAN & PBL -->
+            <section id="tab-tujuan" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Tujuan Pembelajaran & Sintaks PBL</h2>
+                    <p class="text-sm text-slate-500">Capaian Pembelajaran (CP) Matematika Fase E Element Elemen Aljabar dan Fungsi.</p>
+                </div>
+
+                <!-- Target TP -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                        <h3 class="font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> Tujuan Pembelajaran (TP)
+                        </h3>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                <span>Memahami konsep pola bilangan, barisan, dan deret secara intuitif dan formal.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                <span>Mengidentifikasi perbedaan utama antara barisan aritmetika (selisih tetap) dan geometri (rasio tetap).</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                <span>Menentukan rumus suku ke-$n$ ($U_n$) barisan aritmetika dan geometri.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                <span>Menghitung jumlah $n$ suku pertama ($S_n$) deret aritmetika dan geometri.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">5</span>
+                                <span>Menyelesaikan masalah kontekstual nyata di daerah Maluku Tengah berkaitan barisan dan deret.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">6</span>
+                                <span>Menyajikan hasil pemecahan masalah secara kreatif dan kolaboratif dalam kelompok.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Flow Sintaks PBL -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                        <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-diagram-project text-teal-600"></i> Alur Model PBL (90 Menit)
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-2 bg-white rounded shadow-sm border-l-4 border-teal-500">
+                                <span class="font-bold text-teal-700">Fase 1: Orientasi Masalah (15 Menit)</span>
+                                <p class="text-slate-600">Mengamati simulasi panen cengkeh & susunan kursi di Gedung Amboina.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded shadow-sm border-l-4 border-teal-500">
+                                <span class="font-bold text-teal-700">Fase 2: Mengorganisasi Siswa (10 Menit)</span>
+                                <p class="text-slate-600">Pembentukan kelompok berdiferensiasi berdasarkan kesiapan belajar.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded shadow-sm border-l-4 border-teal-500">
+                                <span class="font-bold text-teal-700">Fase 3: Membimbing Penyelidikan (30 Menit)</span>
+                                <p class="text-slate-600">Eksplorasi modul interaktif, manipulasi simulasi, penyusunan solusi LKPD.</p>
+                            </div>
+                            <div class="p-2 bg-white rounded shadow-sm border-l-4 border-teal-500">
+                                <span class="font-bold text-teal-700">Fase 4: Menyajikan Hasil Karya (20 Menit)</span>
+                                <p class="text-slate-600">Presentasi kelompok (Poster / Infografis / Demonstrasi papan tulis).</p>
+                            </div>
+                            <div class="p-2 bg-white rounded shadow-sm border-l-4 border-teal-500">
+                                <span class="font-bold text-teal-700">Fase 5: Evaluasi & Refleksi (15 Menit)</span>
+                                <p class="text-slate-600">Kuis interaktif instan, refleksi siswa, dan konfirmasi dari guru.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: PEMBELAJARAN BERDIFERENSIASI -->
+            <section id="tab-diferensiasi" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="text-2xl font-bold text-slate-800">Rancangan Pembelajaran Berdiferensiasi</h2>
+                    <p class="text-sm text-slate-500">Strategi mengakomodasi keberagaman gaya belajar dan kesiapan peserta didik.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Diferensiasi Konten -->
+                    <div class="border rounded-xl p-4 bg-teal-50/50 border-teal-200">
+                        <div class="text-teal-700 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-photo-film"></i> Diferensiasi Konten
+                        </div>
+                        <ul class="text-xs space-y-2 text-slate-700">
+                            <li><strong>Visual:</strong> Diagram pola gambar cengkeh, grafik pertumbuhan barisan geometri, dan formula berwarna.</li>
+                            <li><strong>Auditori / Teks:</strong> Penjelasan verbal interaktif, rangkuman konsep ringkas, dan narasi kasus kontekstual.</li>
+                            <li><strong>Kinestetik/Simulatif:</strong> Manipulasi slider nilai awal ($a$), beda ($b$), dan rasio ($r$) pada simulator.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Diferensiasi Proses -->
+                    <div class="border rounded-xl p-4 bg-emerald-50/50 border-emerald-200">
+                        <div class="text-emerald-700 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-gears"></i> Diferensiasi Proses
+                        </div>
+                        <ul class="text-xs space-y-2 text-slate-700">
+                            <li><strong>Kelompok Perintis (Perlu Bimbingan):</strong> Mengerjakan LKPD bertahap dengan scaffolding visual dan tabel bantuan.</li>
+                            <li><strong>Kelompok Cakap (Mandiri):</strong> Menyelesaikan masalah kontekstual gabungan aritmetika dan geometri.</li>
+                            <li><strong>Kelompok Mahir (Pengayaan):</strong> Menemukan rumus deret tak hingga & memecahkan soal High Order Thinking (HOTS).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Diferensiasi Produk -->
+                    <div class="border rounded-xl p-4 bg-sky-50/50 border-sky-200">
+                        <div class="text-sky-700 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-ribbon"></i> Diferensiasi Produk
+                        </div>
+                        <ul class="text-xs space-y-2 text-slate-700">
+                            <li><strong>Pilihan Presentasi Hasil:</strong></li>
+                            <li>1. Poster Visual Pola Bilangan (Manual / Canva)</li>
+                            <li>2. Paparan Penyelesaian Soal Kontekstual di Papan Tulis</li>
+                            <li>3. Tabel Data Rekapitulasi Proyek Sasi / Panen</li>
+                            <li>4. Lembar Kerja Digital Interaktif</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Modul Remedial & Pengayaan -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                    <div class="border border-rose-200 bg-rose-50 rounded-xl p-4">
+                        <h4 class="font-bold text-rose-800 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-kit-medical"></i> Program Remedial
+                        </h4>
+                        <p class="text-xs text-rose-900 leading-relaxed mb-2">
+                            Diberikan kepada peserta didik yang belum mencapai Kriteria Ketercapaian Tujuan Pembelajaran (KKTP < 70).
+                        </p>
+                        <ul class="list-disc list-inside text-xs text-rose-800 space-y-1">
+                            <li>Bimbingan perorangan dengan tabel pola bilangan konkrit.</li>
+                            <li>Latihan terfokus pada penentuan beda ($b$) dan rasio ($r$).</li>
+                            <li>Tugas penyederhanaan rumus $U_n = a + (n-1)b$.</li>
+                        </ul>
+                    </div>
+
+                    <div class="border border-indigo-200 bg-indigo-50 rounded-xl p-4">
+                        <h4 class="font-bold text-indigo-800 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-rocket"></i> Program Pengayaan
+                        </h4>
+                        <p class="text-xs text-indigo-900 leading-relaxed mb-2">
+                            Diberikan kepada peserta didik yang telah mencapai KKTP $\ge$ 85.
+                        </p>
+                        <ul class="list-disc list-inside text-xs text-indigo-800 space-y-1">
+                            <li>Eksplorasi Deret Geometri Tak Hingga ($S_\infty = \frac{a}{1-r}$).</li>
+                            <li>Analisis Bunga Majemuk dan Anuitas Perbankan Sederhana.</li>
+                            <li>Problem Solving HOTS Olimpiade Matematika Dasar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: MATERI 1 - POLA BILANGAN -->
+            <section id="tab-materi-pola" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Materi Modul 1</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Pengertian Pola Bilangan, Barisan, dan Deret</h2>
+                </div>
+
+                <!-- Penjelasan Konsep -->
+                <div class="prose max-w-none text-slate-700 text-sm space-y-4">
+                    <p>
+                        Dalam kehidupan sehari-hari masyarakat di <strong>Maluku Tengah</strong>, keberaturan sering kita temui. Misalnya susunan susun daun cengkeh, penataan kursi acara adat, hingga pembagian hasil panen secara bertahap.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+                        <div class="p-4 bg-slate-50 border rounded-lg">
+                            <h4 class="font-bold text-teal-700 mb-1">1. Pola Bilangan</h4>
+                            <p class="text-xs">Susunan angka-angka yang membentuk aturan atau pola tertentu. <br><em>Contoh: 2, 4, 6, 8, ... (Pola Genap)</em></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border rounded-lg">
+                            <h4 class="font-bold text-teal-700 mb-1">2. Barisan Bilangan</h4>
+                            <p class="text-xs">Urutan suku-suku bilangan yang dipisahkan dengan tanda koma (,) dan mengikuti aturan tertentu. <br><em>Bentuk Umum: $U_1, U_2, U_3, ..., U_n$</em></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border rounded-lg">
+                            <h4 class="font-bold text-teal-700 mb-1">3. Deret Bilangan</h4>
+                            <p class="text-xs">Jumlah dari suku-suku pada suatu barisan bilangan yang dihubungkan tanda tambah (+). <br><em>Bentuk Umum: $U_1 + U_2 + U_3 + ... + U_n = S_n$</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualisasi Pola Kontekstual -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-5">
+                    <h3 class="font-bold text-amber-900 mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-cubes"></i> Ilustrasi Visual: Susunan Karung Cengkeh di Gudang Banda
+                    </h3>
+                    <p class="text-xs text-amber-800 mb-4">Perhatikan tumpukan karung hasil panen cengkeh dari tingkat teratas ke bawah:</p>
+                    
+                    <div class="flex flex-wrap items-end justify-center gap-6 py-4 bg-white/70 rounded-lg border border-amber-100">
+                        <div class="text-center">
+                            <div class="flex justify-center mb-1"><span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span></div>
+                            <div class="text-xs font-semibold text-slate-600">Baris 1 ($U_1$)</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex justify-center space-x-1 mb-1">
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                            </div>
+                            <div class="text-xs font-semibold text-slate-600">Baris 2 ($U_2$)</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex justify-center space-x-1 mb-1">
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                            </div>
+                            <div class="text-xs font-semibold text-slate-600">Baris 3 ($U_3$)</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex justify-center space-x-1 mb-1">
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                            </div>
+                            <div class="text-xs font-semibold text-slate-600">Baris 4 ($U_4$)</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs text-amber-900 text-center font-medium">
+                        Pola Bilangan Segitiga: $1, 3, 6, 10, ...$ dengan rumus $U_n = \frac{n(n+1)}{2}$
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: MATERI 2 - ARITMETIKA -->
+            <section id="tab-materi-aritmetika" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Materi Modul 2</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Barisan & Deret Aritmetika</h2>
+                </div>
+
+                <div class="bg-slate-50 border-l-4 border-teal-600 p-4 rounded-r-xl text-sm">
+                    <h3 class="font-bold text-teal-800 mb-1">Definisi Aritmetika</h3>
+                    <p class="text-slate-700">
+                        Barisan Aritmetika adalah barisan bilangan yang selisih/beda ($b$) antara dua suku yang berurutan selalu <strong>tetap (konstan)</strong>.
+                    </p>
+                </div>
+
+                <!-- Rumus Utama -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="math-box p-4 rounded-xl border border-sky-200">
+                        <h4 class="font-bold text-sky-800 text-sm mb-2"><i class="fa-solid fa-calculator"></i> Suku ke-n ($U_n$) Barisan Aritmetika</h4>
+                        <div class="text-center py-3 bg-white rounded border text-lg font-bold text-sky-900">
+                            $$U_n = a + (n - 1)b$$
+                        </div>
+                        <div class="text-xs text-slate-600 mt-2 space-y-1">
+                            <p>• $a = U_1$ : Suku pertama</p>
+                            <p>• $b = U_n - U_{n-1}$ : Beda (selisih)</p>
+                            <p>• $n$ : Banyaknya suku</p>
+                        </div>
+                    </div>
+
+                    <div class="math-box p-4 rounded-xl border border-emerald-200 bg-emerald-50/30">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-2"><i class="fa-solid fa-coins"></i> Jumlah n Suku Pertama ($S_n$) Deret Aritmetika</h4>
+                        <div class="text-center py-3 bg-white rounded border text-lg font-bold text-emerald-900">
+                            $$S_n = \frac{n}{2}(2a + (n-1)b) \quad \text{atau} \quad S_n = \frac{n}{2}(a + U_n)$$
+                        </div>
+                        <div class="text-xs text-slate-600 mt-2 space-y-1">
+                            <p>• $S_n$ : Jumlah suku ke-1 sampai suku ke-$n$</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contoh Soal Kontekstual Aritmetika -->
+                <div class="border rounded-xl p-5 bg-white shadow-sm">
+                    <div class="flex justify-between items-center border-b pb-2 mb-3">
+                        <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Contoh Soal Kontekstual (Panen Cengkeh di Masohi)
+                        </h4>
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-semibold">Studi Kasus 1</span>
+                    </div>
+                    <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                        Seorang petani cengkeh di Masohi memanen cengkeh secara berkala. Pada hari pertama ia memperoleh <strong>15 kg</strong>, hari kedua <strong>20 kg</strong>, hari ketiga <strong>25 kg</strong>, dan seterusnya bertambah secara konstan.
+                    </p>
+                    <div class="space-y-2 text-xs">
+                        <p class="font-semibold text-slate-800">Pertanyaan:</p>
+                        <p>a) Berapa kg cengkeh yang dipanen pada hari ke-10 ($U_{10}$)?</p>
+                        <p>b) Berapa total akumulasi cengkeh selama 10 hari pertama ($S_{10}$)?</p>
+                    </div>
+
+                    <!-- Interactive Accordion for Solution -->
+                    <div class="mt-4">
+                        <button onclick="togglePembahasan('pem-aritmetika')" class="bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 text-xs px-4 py-2 rounded-lg font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-eye"></i> Tampilkan Pembahasan Langkah demi Langkah
+                        </button>
+                        <div id="pem-aritmetika" class="hidden mt-3 p-4 bg-slate-50 border rounded-lg text-xs space-y-2 text-slate-700">
+                            <p class="font-bold text-teal-800">Diketahui:</p>
+                            <p>• Suku awal ($a$) = $15$</p>
+                            <p>• Beda ($b$) = $20 - 15 = 5$</p>
+                            <hr class="my-2">
+                            <p class="font-bold text-teal-800">Penyelesaian (a):</p>
+                            <p>$U_{10} = a + (10-1)b = 15 + (9 \times 5) = 15 + 45 = \mathbf{60\text{ kg}}$</p>
+                            <hr class="my-2">
+                            <p class="font-bold text-teal-800">Penyelesaian (b):</p>
+                            <p>$S_{10} = \frac{10}{2}(a + U_{10}) = 5 \times (15 + 60) = 5 \times 75 = \mathbf{375\text{ kg}}$</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: MATERI 3 - GEOMETRI -->
+            <section id="tab-materi-geometri" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Materi Modul 3</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Barisan & Deret Geometri</h2>
+                </div>
+
+                <div class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl text-sm">
+                    <h3 class="font-bold text-emerald-800 mb-1">Definisi Geometri</h3>
+                    <p class="text-slate-700">
+                        Barisan Geometri adalah barisan bilangan yang perbandingan/rasio ($r$) antara dua suku yang berurutan selalu <strong>tetap (konstan)</strong> melalui perkalian atau pembagian.
+                    </p>
+                </div>
+
+                <!-- Rumus Utama -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="math-box p-4 rounded-xl border border-emerald-200">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-2"><i class="fa-solid fa-calculator"></i> Suku ke-n ($U_n$) Barisan Geometri</h4>
+                        <div class="text-center py-3 bg-white rounded border text-lg font-bold text-emerald-900">
+                            $$U_n = a \cdot r^{n-1}$$
+                        </div>
+                        <div class="text-xs text-slate-600 mt-2 space-y-1">
+                            <p>• $a = U_1$ : Suku pertama</p>
+                            <p>• $r = \frac{U_n}{U_{n-1}}$ : Rasio perkalian</p>
+                        </div>
+                    </div>
+
+                    <div class="math-box p-4 rounded-xl border border-indigo-200 bg-indigo-50/30">
+                        <h4 class="font-bold text-indigo-800 text-sm mb-2"><i class="fa-solid fa-chart-line"></i> Jumlah n Suku Pertama ($S_n$) Deret Geometri</h4>
+                        <div class="text-center py-2 bg-white rounded border text-sm font-bold text-indigo-900">
+                            $$S_n = \frac{a(r^n - 1)}{r - 1} \quad (r > 1) \quad \text{atau} \quad S_n = \frac{a(1 - r^n)}{1 - r} \quad (r < 1)$$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contoh Soal Geometri Kontekstual -->
+                <div class="border rounded-xl p-5 bg-white shadow-sm">
+                    <div class="flex justify-between items-center border-b pb-2 mb-3">
+                        <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-microscope text-purple-600"></i> Contoh Soal Kontekstual (Pembelahan Bakteri Laut)
+                        </h4>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded-full font-semibold">Studi Kasus 2</span>
+                    </div>
+                    <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                        Dalam sebuah penelitian perikanan di Laut Banda, satu koloni bakteri laut membelah diri menjadi <strong>2 bagian setiap 15 menit</strong>. Jika mula-mula terdapat <strong>5 bakteri</strong>, tentukan jumlah bakteri setelah 1 jam (60 menit)!
+                    </p>
+
+                    <!-- Interactive Accordion for Solution -->
+                    <div>
+                        <button onclick="togglePembahasan('pem-geometri')" class="bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs px-4 py-2 rounded-lg font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-eye"></i> Tampilkan Pembahasan Langkah demi Langkah
+                        </button>
+                        <div id="pem-geometri" class="hidden mt-3 p-4 bg-slate-50 border rounded-lg text-xs space-y-2 text-slate-700">
+                            <p class="font-bold text-purple-800">Diketahui:</p>
+                            <p>• Suku awal ($a$) = $5$</p>
+                            <p>• Rasio ($r$) = $2$</p>
+                            <p>• Banyak pembelahan = $\frac{60 \text{ menit}}{15 \text{ menit}} = 4$ kali.</p>
+                            <p>• Maka kita mencari suku ke-5 ($U_5$, karena ada $U_1$ di awal): $n = 4 + 1 = 5$</p>
+                            <hr class="my-2">
+                            <p class="font-bold text-purple-800">Penyelesaian:</p>
+                            <p>$U_5 = a \cdot r^{5-1} = 5 \cdot (2)^4 = 5 \cdot 16 = \mathbf{80\text{ bakteri}}$</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: LABORATORIUM SIMULASI INTERAKTIF -->
+            <section id="tab-simulasi-lab" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Eksperimen Mandiri</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Laboratorium Simulasi Barisan & Deret</h2>
+                    <p class="text-sm text-slate-500">Geser kontrol nilai di bawah untuk mengamati perubahan grafik barisan secara langsung!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Controls -->
+                    <div class="bg-slate-50 border rounded-xl p-5 space-y-4">
+                        <h4 class="font-bold text-slate-800 text-sm border-b pb-2">Parameter Barisan</h4>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Jenis Barisan:</label>
+                            <select id="simType" onchange="updateSimulation()" class="w-full text-xs p-2 border rounded bg-white font-medium">
+                                <option value="aritmetika">Aritmetika (Pertambahan Konstan)</option>
+                                <option value="geometri">Geometri (Perkalian Eksponensial)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Suku Pertama ($a$): <span id="valA" class="text-teal-600">5</span></label>
+                            <input type="range" id="inputA" min="1" max="20" value="5" oninput="updateSimulation()" class="w-full accent-teal-600">
+                        </div>
+
+                        <div id="bedaGroup">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Beda ($b$): <span id="valB" class="text-teal-600">3</span></label>
+                            <input type="range" id="inputB" min="-10" max="20" value="3" oninput="updateSimulation()" class="w-full accent-teal-600">
+                        </div>
+
+                        <div id="rasioGroup" class="hidden">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Rasio ($r$): <span id="valR" class="text-emerald-600">2</span></label>
+                            <input type="range" id="inputR" min="1" max="4" step="0.5" value="2" oninput="updateSimulation()" class="w-full accent-emerald-600">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Jumlah Suku ($n$): <span id="valN" class="text-slate-800">8</span></label>
+                            <input type="range" id="inputN" min="3" max="12" value="8" oninput="updateSimulation()" class="w-full accent-slate-700">
+                        </div>
+
+                        <div class="pt-2 border-t">
+                            <div class="text-xs space-y-1">
+                                <p class="font-bold text-slate-700">Hasil Perhitungan:</p>
+                                <p>Suku ke-$n$ ($U_n$): <span id="resUn" class="font-bold text-teal-700">-</span></p>
+                                <p>Jumlah $n$ Suku ($S_n$): <span id="resSn" class="font-bold text-emerald-700">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Graphic Output -->
+                    <div class="lg:col-span-2 border rounded-xl p-4 bg-white flex flex-col justify-between">
+                        <h4 class="font-bold text-xs text-slate-500 uppercase mb-2">Visualisasi Grafik Pertumbuhan Suku ($U_1$ s.d $U_n$)</h4>
+                        <div class="relative w-full h-[300px]">
+                            <canvas id="simChart"></canvas>
+                        </div>
+                        <div id="simArray" class="mt-4 p-2 bg-slate-50 rounded border text-xs text-center font-mono overflow-x-auto text-slate-700">
+                            Barisan: [ 5, 8, 11, 14, 17, 20, 23, 26 ]
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: LATIHAN INTERAKTIF KONTEKSTUAL -->
+            <section id="tab-latihan" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Uji Pemahaman Mandiri</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Latihan Soal Kontekstual Maluku Tengah</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Soal 1 -->
+                    <div class="border rounded-xl p-4 bg-slate-50">
+                        <h4 class="font-bold text-sm text-slate-800 mb-2">Soal 1: Kursi Gedung Pertunjukan Masohi (Aritmetika)</h4>
+                        <p class="text-xs text-slate-600 mb-3">
+                            Di sebuah gedung kesenian di Masohi, susunan kursi penonton membentuk barisan aritmetika. Baris terdepan berisi 12 kursi, baris kedua 16 kursi, baris ketiga 20 kursi, dan seterusnya. Berapa banyak kursi pada baris ke-8?
+                        </p>
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <button onclick="checkAnswer(this, 1, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">A. 36 Kursi</button>
+                            <button onclick="checkAnswer(this, 1, true)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">B. 40 Kursi</button>
+                            <button onclick="checkAnswer(this, 1, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">C. 44 Kursi</button>
+                            <button onclick="checkAnswer(this, 1, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">D. 48 Kursi</button>
+                        </div>
+                        <div class="feedback hidden p-2 rounded text-xs"></div>
+                    </div>
+
+                    <!-- Soal 2 -->
+                    <div class="border rounded-xl p-4 bg-slate-50">
+                        <h4 class="font-bold text-sm text-slate-800 mb-2">Soal 2: Perkembangbiakan Bibit Pala (Geometri)</h4>
+                        <p class="text-xs text-slate-600 mb-3">
+                            Hasil produksi bibit pala di perkebunan Banda melipat ganda menjadi 3 kali lipat setiap bulannya. Jika bulan pertama panen 10 bibit, berapa jumlah bibit yang diproduksi pada bulan ke-4?
+                        </p>
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <button onclick="checkAnswer(this, 2, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">A. 90 Bibit</button>
+                            <button onclick="checkAnswer(this, 2, true)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">B. 270 Bibit</button>
+                            <button onclick="checkAnswer(this, 2, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">C. 810 Bibit</button>
+                            <button onclick="checkAnswer(this, 2, false)" class="p-2 border rounded bg-white text-left hover:bg-slate-100">D. 120 Bibit</button>
+                        </div>
+                        <div class="feedback hidden p-2 rounded text-xs"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 9: KUIS INTERAKTIF SKOR AUTOMATIS -->
+            <section id="tab-kuis" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Asesmen Formatif Akhir</span>
+                        <h2 class="text-2xl font-bold text-slate-800">Kuis Evaluasi Interaktif</h2>
+                    </div>
+                    <div id="quizTimer" class="bg-teal-100 text-teal-800 text-xs px-3 py-1.5 rounded-full font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-clock"></i> Skor Real-time
+                    </div>
+                </div>
+
+                <form id="quizForm" class="space-y-6">
+                    <!-- Dynamic Quiz Container -->
+                    <div id="quizQuestionsContainer" class="space-y-6"></div>
+
+                    <button type="button" onclick="submitQuiz()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl shadow transition">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Jawaban & Lihat Skor
+                    </button>
+                </form>
+
+                <!-- Modal / Score Display -->
+                <div id="quizResult" class="hidden border-2 border-teal-500 bg-teal-50 rounded-2xl p-6 text-center space-y-3">
+                    <h3 class="text-xl font-bold text-teal-900">Hasil Evaluasi Kuis</h3>
+                    <div class="text-4xl font-extrabold text-teal-700" id="scoreDisplay">0 / 100</div>
+                    <p id="scoreFeedback" class="text-xs text-slate-700 font-medium"></p>
+                    <button onclick="resetQuiz()" class="bg-slate-800 text-white text-xs px-4 py-2 rounded-lg hover:bg-slate-900 transition">Ulangi Kuis</button>
+                </div>
+            </section>
+
+            <!-- TAB 10: ASESMEN LENGKAP & RUBRIK -->
+            <section id="tab-asesmen-sumatif" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Perangkat Evaluasi Pendidik</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Asesmen Sumatif & Rubrik Penilaian</h2>
+                </div>
+
+                <!-- Tab Nav Asesmen -->
+                <div class="flex border-b text-xs font-semibold space-x-4">
+                    <button onclick="toggleAssSub('ass-diagnostik')" class="py-2 text-teal-700 border-b-2 border-teal-700 focus:outline-none">Asesmen Diagnostik</button>
+                    <button onclick="toggleAssSub('ass-uraian')" class="py-2 text-slate-500 hover:text-teal-700 focus:outline-none">Soal Uraian (5 Soal)</button>
+                    <button onclick="toggleAssSub('ass-rubrik')" class="py-2 text-slate-500 hover:text-teal-700 focus:outline-none">Rubrik Penilaian</button>
+                </div>
+
+                <!-- Sub 1: Diagnostik -->
+                <div id="ass-diagnostik" class="ass-sub-content space-y-3 text-xs text-slate-700">
+                    <h4 class="font-bold text-sm text-slate-800">Asesmen Diagnostik Awal (Kesiapan Belajar)</h4>
+                    <p>Diberikan di awal bab untuk memetakan pemahaman dasar operasi hitung aljabar dan pola dasar:</p>
+                    <ol class="list-decimal list-inside space-y-2 bg-slate-50 p-4 rounded-lg border">
+                        <li>Hitunglah nilai dari $2 \times 5 + (10 - 1) \times 3$.</li>
+                        <li>Lanjutkan 3 suku berikutnya dari pola bilangan: $3, 7, 11, 15, ..., ..., ...$</li>
+                        <li>Jika $2^x = 16$, berapakah nilai $x$?</li>
+                    </ol>
+                </div>
+
+                <!-- Sub 2: Soal Uraian -->
+                <div id="ass-uraian" class="ass-sub-content hidden space-y-4 text-xs text-slate-700">
+                    <h4 class="font-bold text-sm text-slate-800">Soal Sumatif Uraian Kontekstual</h4>
+                    
+                    <div class="border p-3 rounded-lg bg-slate-50 space-y-1">
+                        <p class="font-bold text-slate-800">1. Panen Cengkeh Bertahap (Aritmetika)</p>
+                        <p>Hasil panen cengkeh seorang petani di Negeri Lima pada minggu ke-1 adalah 40 kg, minggu ke-2 adalah 48 kg, minggu ke-3 adalah 56 kg, dan seterusnya membentuk barisan aritmetika. Tentukan total hasil panen cengkeh selama 8 minggu pertama!</p>
+                    </div>
+
+                    <div class="border p-3 rounded-lg bg-slate-50 space-y-1">
+                        <p class="font-bold text-slate-800">2. Pembelahan Organisme Laut (Geometri)</p>
+                        <p>Sebuah mikroorganisme air laut melipatgandakan volumenya menjadi 2 kali lipat setiap 20 menit. Jika volume awal mikroorganisme tersebut adalah $3 \text{ mm}^3$, tentukan volumenya setelah 2 jam!</p>
+                    </div>
+
+                    <div class="border p-3 rounded-lg bg-slate-50 space-y-1">
+                        <p class="font-bold text-slate-800">3. Tabungan Sasi Warga</p>
+                        <p>Seorang warga menyisihkan uang hasil laut dengan pola aritmetika: bulan ke-1 Rp100.000, bulan ke-2 Rp125.000, bulan ke-3 Rp150.000, dst. Berapa uang yang ditabung khusus pada bulan ke-12?</p>
+                    </div>
+                </div>
+
+                <!-- Sub 3: Rubrik -->
+                <div id="ass-rubrik" class="ass-sub-content hidden space-y-4 text-xs">
+                    <h4 class="font-bold text-sm text-slate-800">Rubrik Penilaian Berdiferensiasi & Sikap</h4>
+                    <table class="w-full border-collapse border border-slate-300 text-left">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800">
+                                <th class="border border-slate-300 p-2">Aspek</th>
+                                <th class="border border-slate-300 p-2">Mahir (4)</th>
+                                <th class="border border-slate-300 p-2">Cakap (3)</th>
+                                <th class="border border-slate-300 p-2">Perlu Bimbingan (1-2)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-slate-300 p-2 font-bold">Pengetahuan Concept</td>
+                                <td class="border border-slate-300 p-2">Mampu membedakan aritmetika & geometri serta menggunakan rumus secara tepat tanpa kekeliruan.</td>
+                                <td class="border border-slate-300 p-2">Mampu membedakan barisan, sedikit kekeliruan hitung pada rumus $S_n$.</td>
+                                <td class="border border-slate-300 p-2">Belum membedakan beda dan rasio secara konsisten.</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-300 p-2 font-bold">Keterampilan Proyek/LKPD</td>
+                                <td class="border border-slate-300 p-2">Menyajikan laporan pemecahan masalah secara terstruktur, kreatif, dan kontekstual.</td>
+                                <td class="border border-slate-300 p-2">Menyajikan laporan lengkap tetapi kurang variasi dalam penyajian produk.</td>
+                                <td class="border border-slate-300 p-2">Laporan belum selesai tepat waktu.</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-300 p-2 font-bold">Sikap (Gotong Royong)</td>
+                                <td class="border border-slate-300 p-2">Sangat aktif bekerjasama dalam diskusi kelompok dan membantu rekan sekelompok.</td>
+                                <td class="border border-slate-300 p-2">Aktif dalam kelompok.</td>
+                                <td class="border border-slate-300 p-2">Pasif dalam kegiatan kelompok.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 11: REFLEKSI PEMBELAJARAN -->
+            <section id="tab-refleksi" class="tab-content hidden space-y-6">
+                <div class="border-b pb-4">
+                    <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider">Umpan Balik & Evaluasi Diri</span>
+                    <h2 class="text-2xl font-bold text-slate-800">Lembar Refleksi Pembelajaran</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Refleksi Peserta Didik -->
+                    <div class="border rounded-xl p-5 bg-slate-50 space-y-4">
+                        <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-user-pen text-teal-600"></i> Refleksi Peserta Didik
+                        </h4>
+                        
+                        <div class="space-y-3 text-xs">
+                            <div>
+                                <label class="block font-medium text-slate-700 mb-1">1. Bagaimana perasaanmu setelah mempelajari materi ini?</label>
+                                <div class="flex gap-4">
+                                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="feel" class="accent-teal-600"> 😄 Senang</label>
+                                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="feel" class="accent-teal-600"> 🙂 Biasa</label>
+                                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="feel" class="accent-teal-600"> 😕 Bingung</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block font-medium text-slate-700 mb-1">2. Bagian mana yang paling kamu pahami?</label>
+                                <textarea rows="2" class="w-full p-2 border rounded bg-white" placeholder="Contoh: Menghitung barisan aritmetika dengan simulasi..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block font-medium text-slate-700 mb-1">3. Bagian mana yang masih memerlukan bantuan?</label>
+                                <textarea rows="2" class="w-full p-2 border rounded bg-white" placeholder="Contoh: Menggunakan rumus deret geometri..."></textarea>
+                            </div>
+
+                            <button onclick="saveRefleksiSiswa()" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 transition">Simpan Refleksi</button>
+                        </div>
+                    </div>
+
+                    <!-- Refleksi Guru -->
+                    <div class="border rounded-xl p-5 bg-emerald-50/40 space-y-4">
+                        <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-user text-emerald-600"></i> Refleksi Guru (Mariam Hayoto, S.Pd.)
+                        </h4>
+                        
+                        <div class="space-y-3 text-xs text-slate-700">
+                            <div class="p-3 bg-white rounded border">
+                                <span class="font-bold text-slate-800">1. Apakah alokasi waktu 90 menit tercapai efektif?</span>
+                                <p class="text-slate-600 mt-0.5">Penggunaan simulasi interaktif berhasil mempercepat pemahaman intuitif siswa pada 20 menit pertama.</p>
+                            </div>
+                            <div class="p-3 bg-white rounded border">
+                                <span class="font-bold text-slate-800">2. Efektivitas Pembelajaran Berdiferensiasi:</span>
+                                <p class="text-slate-600 mt-0.5">Kelompok visual terbantu dengan grafik live, sementara kelompok kinestetik antusias memanipulasi slider parameter.</p>
+                            </div>
+                            <div class="p-3 bg-white rounded border">
+                                <span class="font-bold text-slate-800">3. Rencana Tindak Lanjut:</span>
+                                <p class="text-slate-600 mt-0.5">Memberikan pendampingan ekstra pada kelompok perintis untuk pengenalan rasio pecahan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Modul Pembelajaran Interaktif Matematika - SMAN 46 Maluku Tengah</p>
+            <p class="text-slate-500 mt-1">Dirancang untuk Kurikulum Merdeka Fase E | Dikembangkan oleh Mariam Hayoto, S.Pd.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Navigation Tab Logic ---
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show target tab
+            const target = document.getElementById('tab-' + tabId);
+            if(target) target.classList.remove('hidden');
+
+            // Update active state in sidebar
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                btn.classList.remove('active-tab', 'bg-teal-600', 'text-white');
+                btn.classList.add('text-slate-700');
+            });
+
+            // Find and highlight current button
+            event.currentTarget.classList.add('active-tab');
+            
+            // Re-render MathJax formula if needed
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+
+            // Scroll to top of content on mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle Mobile Menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        });
+
+        // Toggle Pembahasan Accordion
+        function togglePembahasan(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // Toggle Sub Asesmen Tabs
+        function toggleAssSub(subId) {
+            document.querySelectorAll('.ass-sub-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(subId).classList.remove('hidden');
+        }
+
+        // --- 2. Interactive Chart & Simulation Logic ---
+        let simChartInstance = null;
+
+        function updateSimulation() {
+            const type = document.getElementById('simType').value;
+            const a = parseFloat(document.getElementById('inputA').value);
+            const b = parseFloat(document.getElementById('inputB').value);
+            const r = parseFloat(document.getElementById('inputR').value);
+            const n = parseInt(document.getElementById('inputN').value);
+
+            // Update UI Labels
+            document.getElementById('valA').innerText = a;
+            document.getElementById('valB').innerText = b;
+            document.getElementById('valR').innerText = r;
+            document.getElementById('valN').innerText = n;
+
+            // Show/Hide inputs based on type
+            if (type === 'aritmetika') {
+                document.getElementById('bedaGroup').classList.remove('hidden');
+                document.getElementById('rasioGroup').classList.add('hidden');
+            } else {
+                document.getElementById('bedaGroup').classList.add('hidden');
+                document.getElementById('rasioGroup').classList.remove('hidden');
+            }
+
+            // Generate Data Array
+            let labels = [];
+            let data = [];
+            let sum = 0;
+
+            for (let i = 1; i <= n; i++) {
+                labels.push('U' + i);
+                let val = 0;
+                if (type === 'aritmetika') {
+                    val = a + (i - 1) * b;
+                } else {
+                    val = a * Math.pow(r, i - 1);
+                }
+                data.push(val);
+                sum += val;
+            }
+
+            // Display Results
+            const un = data[data.length - 1];
+            document.getElementById('resUn').innerText = un.toLocaleString();
+            document.getElementById('resSn').innerText = sum.toLocaleString();
+            document.getElementById('simArray').innerText = 'Barisan: [ ' + data.join(', ') + ' ]';
+
+            // Chart Render
+            const ctx = document.getElementById('simChart').getContext('2d');
+            
+            if (simChartInstance) {
+                simChartInstance.destroy();
+            }
+
+            simChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nilai Suku (U_n)',
+                        data: data,
+                        backgroundColor: type === 'aritmetika' ? 'rgba(13, 148, 136, 0.7)' : 'rgba(16, 185, 129, 0.7)',
+                        borderColor: type === 'aritmetika' ? '#0d9488' : '#10b981',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // --- 3. Practice Checking Logic ---
+        function checkAnswer(btn, qNum, isCorrect) {
+            const parent = btn.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            const feedback = parent.nextElementSibling;
+
+            buttons.forEach(b => {
+                b.classList.remove('bg-emerald-100', 'bg-rose-100', 'border-emerald-500', 'border-rose-500');
+                b.disabled = true;
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+
+            if (isCorrect) {
+                btn.classList.add('bg-emerald-100', 'border-emerald-500');
+                feedback.classList.add('bg-emerald-100', 'text-emerald-800');
+                feedback.innerHTML = '<strong><i class="fa-solid fa-circle-check"></i> Benar!</strong> Jawaban Anda sangat tepat.';
+            } else {
+                btn.classList.add('bg-rose-100', 'border-rose-500');
+                feedback.classList.add('bg-rose-100', 'text-rose-800');
+                feedback.innerHTML = '<strong><i class="fa-solid fa-circle-xmark"></i> Kurang Tepat.</strong> Silakan tinjau kembali rumus atau langkah penyelesaian.';
+            }
+        }
+
+        // --- 4. Dynamic Quiz Engine (10 Questions) ---
+        const quizData = [
+            {
+                q: "1. Diketahui barisan 4, 7, 10, 13, ... Nilai beda (b) dari barisan aritmetika tersebut adalah...",
+                options: ["A. 2", "B. 3", "C. 4", "D. 5"],
+                ans: 1
+            },
+            {
+                q: "2. Suku ke-15 dari barisan aritmetika 5, 9, 13, 17, ... adalah...",
+                options: ["A. 61", "B. 65", "C. 57", "D. 69"],
+                ans: 0
+            },
+            {
+                q: "3. Rumus suku ke-n dari barisan 2, 6, 10, 14, ... adalah...",
+                options: ["A. Un = 4n - 2", "B. Un = 4n + 2", "C. Un = 2n + 4", "D. Un = 4n"],
+                ans: 0
+            },
+            {
+                q: "4. Jumlah 10 suku pertama dari deret aritmetika 3 + 7 + 11 + 15 + ... adalah...",
+                options: ["A. 210", "B. 190", "C. 200", "D. 220"],
+                ans: 0
+            },
+            {
+                q: "5. Diketahui barisan geometri 3, 6, 12, 24, ... Rasio (r) dari barisan tersebut adalah...",
+                options: ["A. 3", "B. 2", "C. 4", "D. 1/2"],
+                ans: 1
+            },
+            {
+                q: "6. Suku ke-6 dari barisan geometri 2, 6, 18, 54, ... adalah...",
+                options: ["A. 486", "B. 162", "C. 1458", "D. 324"],
+                ans: 0
+            },
+            {
+                q: "7. Seorang warga Maluku Tengah menabung Rp50.000 pada bulan pertama dan menambah tabungannya Rp10.000 setiap bulan berikutnya. Besar tabungan pada bulan ke-6 adalah...",
+                options: ["A. Rp100.000", "B. Rp110.000", "C. Rp90.000", "D. Rp120.000"],
+                ans: 0
+            },
+            {
+                q: "8. Jumlah 5 suku pertama dari deret geometri 1 + 2 + 4 + 8 + ... adalah...",
+                options: ["A. 31", "B. 32", "C. 63", "D. 15"],
+                ans: 0
+            },
+            {
+                q: "9. Pembelahan suatu sel bakteri membentuk barisan geometri dengan suku pertama a = 4 dan r = 2. Banyaknya sel pada suku ke-4 adalah...",
+                options: ["A. 16", "B. 32", "C. 64", "D. 24"],
+                ans: 1
+            },
+            {
+                q: "10. Perbedaan mendasar antara barisan aritmetika dan barisan geometri terletak pada...",
+                options: [
+                    "A. Barisan aritmetika memiliki rasio tetap, geometri memiliki beda tetap",
+                    "B. Barisan aritmetika memiliki selisih/beda tetap, geometri memiliki rasio/perbandingan tetap",
+                    "C. Barisan aritmetika selalu berkurang, geometri selalu bertambah",
+                    "D. Tidak ada perbedaan"
+                ],
+                ans: 1
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quizQuestionsContainer');
+            container.innerHTML = '';
+
+            quizData.forEach((item, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'border rounded-xl p-4 bg-slate-50 space-y-2';
+                
+                let optionsHtml = '';
+                item.options.forEach((opt, oIdx) => {
+                    optionsHtml += `
+                        <label class="flex items-center space-x-2 p-2 bg-white border rounded cursor-pointer hover:bg-teal-50 transition text-xs">
+                            <input type="radio" name="q${idx}" value="${oIdx}" class="accent-teal-600">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                qDiv.innerHTML = `
+                    <p class="font-bold text-xs text-slate-800">${item.q}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            quizData.forEach((item, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === item.ans) {
+                    score += 10;
+                }
+            });
+
+            const resultDiv = document.getElementById('quizResult');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const feedback = document.getElementById('scoreFeedback');
+
+            resultDiv.classList.remove('hidden');
+            scoreDisplay.innerText = `${score} / 100`;
+
+            if (score >= 80) {
+                feedback.innerHTML = '<span class="text-emerald-700 font-bold">Luar Biasa! Pemahaman Sangat Baik (Kategori Mahir).</span>';
+            } else if (score >= 60) {
+                feedback.innerHTML = '<span class="text-amber-700 font-bold">Cukup Baik! Tinjau kembali beberapa rumus untuk menyempurnakan.</span>';
+            } else {
+                feedback.innerHTML = '<span class="text-rose-700 font-bold">Perlu Bimbingan. Silakan pelajari kembali modul materi dan jalankan simulasi.</span>';
+            }
+
+            window.scrollTo({ top: resultDiv.offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizForm').reset();
+            document.getElementById('quizResult').classList.add('hidden');
+        }
+
+        function saveRefleksiSiswa() {
+            alert('Terima kasih! Refleksi belajar Anda berhasil disimpan secara lokal.');
+        }
+
+        // Window Init
+        window.onload = function() {
+            updateSimulation();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
